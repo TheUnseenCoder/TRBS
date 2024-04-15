@@ -1,0 +1,82 @@
+<!-- item_product.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:id="@+id/product_layout_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/product_image_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_product_image" />
+
+        <TextView
+            android:id="@+id/product_name_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_image_1"
+            android:text="Product Name"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/product_price_1"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_name_1"
+            android:text="₱0.00"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/product_layout_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp">
+
+        <ImageView
+            android:id="@+id/product_image_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_product_image" />
+
+        <TextView
+            android:id="@+id/product_name_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_image_2"
+            android:textColor="@color/white"
+            android:text="Product Name"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/product_price_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_name_2"
+            android:textColor="@color/white"
+            android:text="₱0.00"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
