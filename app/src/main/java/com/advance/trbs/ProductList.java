@@ -81,11 +81,12 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
         // Check if the search query is empty
         if (TextUtils.isEmpty(query)) {
             // If empty, fetch all products again
+            products.clear(); // Clear the search results
             fetchProductsFromServer();
             return;
         }
 
-        String url = "http://192.168.1.7/TailoringSystem/includes/search_product.php?query=" + query;
+        String url = "http://192.168.1.9/TailoringSystem/includes/search_product.php?query=" + query;
 
         // Create a request using Volley
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -147,7 +148,7 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
 
 
     private void fetchProductsFromServer() {
-        String url = "http://192.168.1.7/TailoringSystem/includes/products.php"; // Replace with your actual URL
+        String url = "http://192.168.1.9/TailoringSystem/includes/products.php"; // Replace with your actual URL
 
         // Create a request using Volley
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,

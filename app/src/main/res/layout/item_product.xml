@@ -6,7 +6,6 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <!-- Card-like layout for the first product -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_1"
         android:layout_width="0dp"
@@ -14,7 +13,7 @@
         android:layout_weight="1"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
-        app:cardBackgroundColor="#4c00b0"
+        app:cardBackgroundColor="#f8f4f8"
         app:cardCornerRadius="16dp">
 
         <RelativeLayout
@@ -39,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/product_image_1"
                 android:text="Product Name"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="10sp"
                 android:layout_marginTop="8dp"/>
 
@@ -49,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/product_name_1"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="₱0.00"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
@@ -66,7 +65,7 @@
         android:layout_weight="1"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        app:cardBackgroundColor="#4c00b0"
+        app:cardBackgroundColor="#f8f4f8"
         app:cardCornerRadius="16dp">
 
         <RelativeLayout
@@ -90,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/product_image_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="Product Name"
                 android:textSize="10sp"
                 android:layout_marginTop="8dp"/>
@@ -101,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/product_name_2"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="₱0.00"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />

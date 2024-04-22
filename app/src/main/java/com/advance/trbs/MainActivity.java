@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         // Handle response
                         if (response.equals("success")) {
                             // Redirect to MainActivity
-                            Intent intent = new Intent(MainActivity.this, Home.class);
+                            Intent intent = new Intent(MainActivity.this, ProductList.class);
                             intent.putExtra("email", email);
                             intent.putExtra("fullname", fullName);
                             startActivity(intent);

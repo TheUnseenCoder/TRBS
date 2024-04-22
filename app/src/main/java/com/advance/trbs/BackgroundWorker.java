@@ -89,7 +89,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 String email = parts[2];
 
                 // Start the new activity and pass the name, image, and address as extras
-                Intent intent = new Intent(context, Home.class);
+                Intent intent = new Intent(context, ProductList.class);
                 intent.putExtra("fullname", name);
                 intent.putExtra("email", email);
                 context.startActivity(intent);
