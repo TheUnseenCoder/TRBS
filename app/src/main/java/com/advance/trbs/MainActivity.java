@@ -27,12 +27,17 @@ import com.google.android.gms.tasks.Task;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class MainActivity extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     ImageView google;
     EditText PasswordEt, UsernameEt;
     Button signUpButton, forgotPasswordButton;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
         // Initialize buttons
         signUpButton = findViewById(R.id.etsignup);
         forgotPasswordButton = findViewById(R.id.etforgotpass);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        // Check if email is already stored
+        String storedEmail = SharedPreferencesUtils.getStoredEmail(this);
+        if (!storedEmail.isEmpty()) {
+            // If email is stored, automatically populate the email field
+            UsernameEt.setText(storedEmail);
+            OnLogin(null);
+        }
 
         // Set click listeners for buttons
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         String user_name = UsernameEt.getText().toString();
         String user_pass = PasswordEt.getText().toString();
         String type = "login";
+        SharedPreferencesUtils.saveEmail(this, user_name);
+
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, user_name, user_pass);
     }
@@ -97,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 if (account != null) {
                     String email = account.getEmail();
                     String fullName = account.getDisplayName();
+
+                    SharedPreferencesUtils.saveEmail(this, email);
+
                     // Call method to send data to server
                     sendDataToServer(email, fullName);
                 }

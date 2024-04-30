@@ -1,15 +1,20 @@
 package com.advance.trbs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductList extends AppCompatActivity implements ProductAdapter.OnProductClickListener {
+    private static final String PREF_EMAIL = "email";
+    private String email;
     private RecyclerView recyclerView;
     private ProductAdapter adapter;
     private List<Product> products;
@@ -39,10 +48,50 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
         setContentView(R.layout.product);
         EditText searchBar = findViewById(R.id.search_bar);
         Button loginButton = findViewById(R.id.login_button);
-        // Initialize RecyclerView
 
-        // Search functionality
-        // Search functionality
+       FloatingActionButton fab = findViewById(R.id.fab);
+
+        String email = getIntent().getStringExtra("email");
+        if (email == null || email.isEmpty()) {
+            fab.setVisibility(View.GONE); // Hide the FAB
+        } else {
+            fab.setVisibility(View.VISIBLE); // Show the FAB
+            loginButton.setVisibility(View.GONE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ExpandedMenuFragment expandedMenuFragment = new ExpandedMenuFragment();
+                    expandedMenuFragment.show(getSupportFragmentManager(), "ExpandedMenuFragment");
+                }
+            });
+        }
+
+        String storedEmail = SharedPreferencesUtils.getStoredEmail(this);
+        if (storedEmail == null || storedEmail.isEmpty()) {
+            fab.setVisibility(View.GONE); // Hide the FAB
+        } else {
+            fab.setVisibility(View.VISIBLE); // Show the FAB
+            loginButton.setVisibility(View.GONE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ExpandedMenuFragment expandedMenuFragment = new ExpandedMenuFragment();
+                    expandedMenuFragment.show(getSupportFragmentManager(), "ExpandedMenuFragment");
+                }
+            });
+        }
+
+        ImageView addToCart = findViewById(R.id.addToCart);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle login button click
+                // For example, start LoginActivity
+                Intent intent = new Intent(ProductList.this, AddToCart.class);
+                startActivity(intent);
+            }
+        });
+
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -76,6 +125,7 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
         fetchProductsFromServer();
     }
 
+
     // Method to search products based on query using Volley
     private void searchProducts(String query) {
         // Check if the search query is empty
@@ -86,7 +136,7 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
             return;
         }
 
-        String url = "http://192.168.1.9/TailoringSystem/includes/search_product.php?query=" + query;
+        String url = "http://192.168.1.11/TailoringSystem/includes/search_product.php?query=" + query;
 
         // Create a request using Volley
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -148,7 +198,7 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
 
 
     private void fetchProductsFromServer() {
-        String url = "http://192.168.1.9/TailoringSystem/includes/products.php"; // Replace with your actual URL
+        String url = "http://192.168.1.11/TailoringSystem/includes/products.php"; // Replace with your actual URL
 
         // Create a request using Volley
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -191,8 +241,10 @@ public class ProductList extends AppCompatActivity implements ProductAdapter.OnP
     public void onProductClick(Product product) {
         // Handle product click here
         // For example, you can start the ProductDetailsActivity and pass the product_id
+        String email = getIntent().getStringExtra("email");
         Intent intent = new Intent(this, ProductDetailsActivity.class);
         intent.putExtra("PRODUCT_ID", product.getProductId());
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 }

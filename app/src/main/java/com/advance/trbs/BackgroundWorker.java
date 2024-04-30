@@ -80,21 +80,17 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         alertDialog.setMessage(result);
 
         if (result != null && result.startsWith("login success")) {
-            // Split the result string by commas
             String[] parts = result.split(",");
 
-            // Ensure that the parts array has at least three elements
             if (parts.length >= 3) {
                 String name = parts[1];
                 String email = parts[2];
 
-                // Start the new activity and pass the name, image, and address as extras
                 Intent intent = new Intent(context, ProductList.class);
                 intent.putExtra("fullname", name);
                 intent.putExtra("email", email);
                 context.startActivity(intent);
             } else {
-                // Handle the case where the result string does not contain enough data
                 alertDialog.setMessage("Invalid result format");
                 alertDialog.show();
             }

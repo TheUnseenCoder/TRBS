@@ -3,15 +3,252 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
+    android:background="@color/ic_launcher_background"
     tools:context=".ProductDetailsActivity">
 
-    <TextView
-        android:id="@+id/product_id"
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <!-- ImageView for the image -->
+        <ImageView
+            android:id="@+id/website_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/trbs_logo"
+            android:contentDescription="Website Icon" />
+
+        <!-- Spacer view to push the button to the right -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/addToCart"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:background="@drawable/addtocart"
+            android:layout_marginRight="30px" />
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linear"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Name"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/textViewProductDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Description"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_below="@id/textViewProductName"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/baseprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexenddeca"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:layout_below="@id/textViewProductDescription"
+                android:layout_centerHorizontal="true"/>
+
+            <HorizontalScrollView
+                android:id="@+id/images"
+                android:layout_width="match_parent"
+                android:layout_height="161dp"
+                android:layout_below="@id/baseprice"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:id="@+id/images_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/TVvariants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexenddeca"
+                android:text="Variants"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_below="@id/images"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <RadioGroup
+                android:id="@+id/variants_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/TVvariants"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true">
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/TVsizes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexenddeca"
+                android:text="Sizes"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_below="@id/variants_container"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <RadioGroup
+                android:id="@+id/sizes_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/TVsizes"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true">
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/measurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Measurement"
+                android:textColor="@color/white"
+                android:fontFamily="@font/lexenddeca"
+                android:layout_below="@id/sizes_container"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <HorizontalScrollView
+                android:id="@+id/measurementscroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/measurement"
+                android:layout_marginTop="15dp">
+
+                <TableLayout
+                    android:id="@+id/measurementsTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/measurement"
+                    android:stretchColumns="*"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/TVqty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity"
+                android:textColor="@color/white"
+                android:fontFamily="@font/lexenddeca"
+                android:textSize="20sp"
+                android:layout_below="@id/measurementscroll"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:id="@+id/QTY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/TVqty">
+
+                <EditText
+                    android:id="@+id/ETqty"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:textColor="@color/white"
+                    android:inputType="number"
+                    android:hint="Insert Qty"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/lexenddeca"
+                    android:background="@drawable/bg_edit_text"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvCurrentQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lexenddeca"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/QTY"
+                android:layout_marginTop="21dp"
+                android:text="Add to Cart" />
+
+            <Button
+                android:id="@+id/buttonBuyNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/buttonAddToCart"
+                android:layout_alignRight="@id/buttonAddToCart"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/QTY"
+                android:layout_marginEnd="-152dp"
+                android:layout_marginRight="-152dp"
+                android:text="Buy Now"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product ID"
-        android:textSize="24sp"
-        android:layout_centerInParent="true"/>
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/menu"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp" />
 </RelativeLayout>
