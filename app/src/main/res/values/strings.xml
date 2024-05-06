@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TRBS</string>
+    <string-array name="payment_percentages">
+        <item>70%</item>
+        <item>100%</item>
+        <item>Cancel</item>
+    </string-array>
+    <string name="label_100_percent_pay">100% Pay</string>
 </resources>

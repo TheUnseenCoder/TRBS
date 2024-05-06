@@ -126,6 +126,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
+        Button BuyNow = findViewById(R.id.buttonBuyNow);
+        BuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle add to cart button click
+                BuyNow();
+            }
+        });
+
     }
 
     private void fetchProductDetails(int productId) {
@@ -277,6 +286,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 layoutParams.setMargins(0, 0, 3, 0);
                 imageView.setLayoutParams(layoutParams);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+                imageView.setTag(imageUrl);
+
 
                 // Use Volley to load the image asynchronously
                 ImageRequest imageRequest = new ImageRequest(imageUrl,
@@ -499,7 +511,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Get the product ID
         String productIdString = getIntent().getStringExtra("PRODUCT_ID");
         int productId = productIdString != null ? Integer.parseInt(productIdString) : 0;
-        String email = getIntent().getStringExtra("email");
+        String email = SharedPreferencesUtils.getStoredEmail(this);
         // Check if required fields are selected
         if (selectedSize.isEmpty() || selectedVariant.isEmpty() || qty == 0 || productId == 0) {
             // Notify the user to select all required options
@@ -536,6 +548,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         // Otherwise, show error message
                         if (response.contains("success")) {
                             Toast.makeText(ProductDetailsActivity.this, "Product added to cart successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ProductDetailsActivity.this, AddToCart.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(ProductDetailsActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
@@ -554,6 +568,106 @@ public class ProductDetailsActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+    private void BuyNow() {
+        // Get the selected size
+        RadioGroup sizesContainer = findViewById(R.id.sizes_container);
+        int selectedSizeId = sizesContainer.getCheckedRadioButtonId();
+        RadioButton selectedSizeRadioButton = findViewById(selectedSizeId);
+        String selectedSize = selectedSizeRadioButton != null ? selectedSizeRadioButton.getText().toString() : "";
+
+        // Get the selected variant
+        int selectedVariantId = variantsContainer.getCheckedRadioButtonId();
+        RadioButton selectedVariantRadioButton = findViewById(selectedVariantId);
+        String selectedVariant = selectedVariantRadioButton != null ? selectedVariantRadioButton.getText().toString() : "";
+
+        // Get the selected quantity
+        EditText qtyEditText = findViewById(R.id.ETqty);
+        String qtyString = qtyEditText.getText().toString();
+        int qty = qtyString.isEmpty() ? 0 : Integer.parseInt(qtyString);
+
+        // Get other product details
+        String productName = ((TextView) findViewById(R.id.textViewProductName)).getText().toString();
+        String productDescription = ((TextView) findViewById(R.id.textViewProductDescription)).getText().toString();
+        String basePrice = ((TextView) findViewById(R.id.baseprice)).getText().toString();
+        // Get the product ID
+
+        String productIdString = getIntent().getStringExtra("PRODUCT_ID");
+        int productId = productIdString != null ? Integer.parseInt(productIdString) : 0;
+        String email = SharedPreferencesUtils.getStoredEmail(this);
+
+        List<String> imagesList = new ArrayList<>();
+        LinearLayout imagesContainer = findViewById(R.id.images_container);
+
+        if (imagesContainer.getChildCount() > 0) {
+            ImageView firstImageView = (ImageView) imagesContainer.getChildAt(0);
+            Object tag = firstImageView.getTag();
+            String firstImageUrl = (tag != null) ? tag.toString() : "";
+            imagesList.add(firstImageUrl);
+        }
+
+
+
+        // Check if required fields are selected
+        if (selectedSize.isEmpty() || selectedVariant.isEmpty() || qty == 0 || qtyString.isEmpty()) {
+            // Notify the user to select all required options
+            Toast.makeText(this, "Please select size, variant, and enter quantity", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String addToCartUrl = "http://192.168.1.11/tailoringSystem/includes/seeqty.php?" +
+                "product_id=" + productId +
+                "&email=" + email +
+                "&quantity=" + qty;
+
+        // Create a request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Create a string request to send the data to the server
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, addToCartUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response from the server
+                        // If the response contains "success", show success message
+                        // Otherwise, show error message
+                        if (response.contains("success")) {
+                            Intent intent = new Intent(ProductDetailsActivity.this, PlaceOrder.class);
+
+                            // Pass the product details as extras
+                            intent.putExtra("EMAIL", email);
+                            intent.putExtra("PRODUCT_ID", productId);
+                            intent.putExtra("PRODUCT_NAME", productName);
+                            intent.putExtra("PRODUCT_DESCRIPTION", productDescription);
+                            intent.putExtra("BASE_PRICE", basePrice);
+                            intent.putExtra("SELECTED_SIZE", selectedSize);
+                            intent.putExtra("SELECTED_VARIANT", selectedVariant);
+                            intent.putExtra("QUANTITY", qty);
+
+                            // Serialize the imagesList and pass it as an ArrayList
+
+                            intent.putStringArrayListExtra("IMAGES", new ArrayList<>(imagesList));
+
+
+                            startActivity(intent);
+
+                        } else {
+                            Toast.makeText(ProductDetailsActivity.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors that occur during the request
+                        Toast.makeText(ProductDetailsActivity.this, "Error occurred. Please try again later.", Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
+                    }
+                });
+
+        // Add the request to the request queue
+        queue.add(stringRequest);
+
+    }
 
 }
 
